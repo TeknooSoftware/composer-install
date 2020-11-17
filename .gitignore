@@ -1,12 +1,15 @@
 *.sqlite
 .project
 .buildpath
-/.settings
+.settings
 .*.un~
 .*.swp
 *.*~
 *.sqlite
 *.done
 composer.lock
+!.gitkeep
 /vendor/*
-/.phpunit.result.cache
+.phpunit.result.cache
+tests/fixtures/bundles/config/bundles.php
+tests/fixtures/config/config/*

@@ -1,0 +1,6 @@
+<?php
+
+return [
+    Foo\Bar::class => ['all' => true],
+    Bar\Foo::class => ['dev' => true]
+];
