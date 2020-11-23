@@ -1,9 +1,9 @@
 {
     "name": "teknoo/composer-install",
     "type": "composer-plugin",
-    "description": "",
-    "keywords": [""],
-    "homepage": "http://foo.bar",
+    "description": "Composer plugin allowing the creation of a functional package 'out of the box' as well as a cleaning of the project when it is uninstalled.",
+    "keywords": ["composer", "plugin", "install", "update", "uninstall", "automated", "installer"],
+    "homepage": "https://teknoo.software/composer-install",
     "license": ["MIT"],
     "authors": [
         {
@@ -13,8 +13,8 @@
         }
     ],
     "support": {
-        "issues": "http://foo.bar",
-        "source": "http://foo.bar"
+        "issues": "https://github.com/TeknooSoftware/composer-install/issues",
+        "source": "https://github.com/TeknooSoftware/composer-install/"
     },
     "funding": [
         {
