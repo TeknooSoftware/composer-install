@@ -28,7 +28,7 @@ use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
 use PHPUnit\Framework\TestCase;
 use Teknoo\Composer\Action\ActionInterface;
-use Teknoo\Composer\Action\SymfonyConfig;
+use Teknoo\Composer\Action\SymfonyPackages;
 
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
@@ -39,10 +39,11 @@ use Teknoo\Composer\Action\SymfonyConfig;
  * @license     http://teknoo.software/license/mit         MIT License
  * @author      Richard Déloge <richarddeloge@gmail.com>
  *
- * @covers \Teknoo\Composer\Action\SymfonyConfig
+ * @covers \Teknoo\Composer\Action\SymfonyPackages
+ * @covers \Teknoo\Composer\Action\FilesAction
  * @covers \Teknoo\Composer\Action\SymfonyTrait
  */
-class SymfonyConfigTest extends TestCase
+class SymfonyPackagesTest extends TestCase
 {
     private const CONFIG_PATH = __DIR__ . '/../fixtures/config';
 
@@ -63,9 +64,9 @@ class SymfonyConfigTest extends TestCase
         @\rmdir(static::CONFIG_PATH . '/config/packages');
     }
 
-    public function buildAction(): SymfonyConfig
+    public function buildAction(): SymfonyPackages
     {
-        return new SymfonyConfig();
+        return new SymfonyPackages();
     }
 
     public function testInstallBadPackageName()

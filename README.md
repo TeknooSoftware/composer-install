@@ -20,6 +20,7 @@ the following example. It comes with actions dedicated to install bundles for Sy
  
 * updating the `bundles.php` file
 * copy/clean some configuration files into `config/packages` folder.
+* copy/clean routes files into `config/routes` foler.
 
 Quick Example
 -------------
@@ -35,7 +36,7 @@ Quick Example
                     "Your\\Another\\Company\\Bundle": {"dev": true }
                 },
                 #To add/update some file in config/packages
-                "Teknoo\\Composer\\Action\\SymfonyConfig": {
+                "Teknoo\\Composer\\Action\\SymfonyPackages": {
                     "bundle_config.yaml": [
                         "# Read the documentation:",
                         "my_bundle:",

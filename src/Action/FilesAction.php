@@ -34,14 +34,9 @@ use Composer\Package\PackageInterface;
  * @license     http://teknoo.software/license/mit         MIT License
  * @author      Richard Déloge <richarddeloge@gmail.com>
  */
-class SymfonyConfig implements ActionInterface
+abstract class FilesAction implements ActionInterface
 {
-    use SymfonyTrait;
-
-    private function getConfigPath(PackageInterface $package): string
-    {
-        return $this->getConfigDir($package) . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR;
-    }
+    abstract protected function getDestinationPath(PackageInterface $package): string;
 
     /**
      * @param string|array<int|string, mixed> $content
@@ -73,12 +68,12 @@ class SymfonyConfig implements ActionInterface
     /**
      * @param string|array<int|string, mixed> $content
      */
-    private function write(IOInterface $io, string $configDir, string $fileName, &$content): void
+    private function write(IOInterface $io, string $destinationPath, string $fileName, &$content): void
     {
-        $path = $configDir . $fileName;
+        $path = $destinationPath . $fileName;
 
-        if (!\is_dir($configDir)) {
-            \mkdir($configDir, 0777, true);
+        if (!\is_dir($destinationPath)) {
+            \mkdir($destinationPath, 0777, true);
         }
 
         if (
@@ -102,7 +97,7 @@ class SymfonyConfig implements ActionInterface
         PackageInterface $package,
         IOInterface $io
     ): void {
-        $path = $this->getConfigPath($package);
+        $path = $this->getDestinationPath($package);
 
         $io->write("Install from $packageName");
         foreach ($arguments as $fileName => &$content) {
@@ -124,7 +119,7 @@ class SymfonyConfig implements ActionInterface
         PackageInterface $package,
         IOInterface $io
     ): void {
-        $path = $this->getConfigPath($package);
+        $path = $this->getDestinationPath($package);
 
         $io->write("Clean configuration from $packageName");
         if (!$io->askConfirmation("Conform cleaning files configured for $packageName ? (yes/no)" . PHP_EOL, true)) {
