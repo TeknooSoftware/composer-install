@@ -155,6 +155,116 @@ class SymfonyBundleTest extends TestCase
             ->method('getComposer')
             ->willReturn($composer);
 
+        \file_put_contents(
+            static::CONFIG_PATH . '/config/bundles.php',
+            <<<'EOF'
+<?php
+
+return [
+    Hello\World::class => ['all' => true],
+    Foo\Bar::class => ['all' => true],
+    Bar\Foo::class => ['dev' => true]
+];
+EOF
+        );
+
+        $io = $this->createMock(IOInterface::class);
+        $io->expects(self::any())
+            ->method('askConfirmation')
+            ->willReturn(true);
+
+        self::assertInstanceOf(
+            ActionInterface::class,
+            $this->buildAction()->install(
+                'foo',
+                [\Hello\World::class => ['all' => true]],
+                $event,
+                $io
+            )
+        );
+
+        self::assertEquals(
+            [
+                \Hello\World::class => ['all' => true],
+                \Foo\Bar::class => ['all' => true],
+                \Bar\Foo::class => ['dev' => true]
+            ],
+            include(static::CONFIG_PATH . '/config/bundles.php')
+        );
+    }
+
+    public function testInstallAlreadyInstalled()
+    {
+        $package = $this->createMock(PackageInterface::class);
+        $package->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([]);
+
+        $composer = $this->createMock(Composer::class);
+        $composer->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($package);
+
+        $event = $this->createMock(PackageEvent::class);
+        $event->expects(self::any())
+            ->method('getComposer')
+            ->willReturn($composer);
+
+        \file_put_contents(
+            static::CONFIG_PATH . '/config/bundles.php',
+            <<<'EOF'
+<?php
+
+return [
+    Hello\World::class => ['all' => [true, false]],
+    Foo\Bar::class => ['all' => true],
+    Bar\Foo::class => ['dev' => true]
+];
+EOF
+        );
+
+        $io = $this->createMock(IOInterface::class);
+        $io->expects(self::any())
+            ->method('askConfirmation')
+            ->willReturn(true);
+
+        self::assertInstanceOf(
+            ActionInterface::class,
+            $this->buildAction()->install(
+                'foo',
+                [\Hello\World::class => ['all' => true]],
+                $event,
+                $io
+            )
+        );
+
+        self::assertEquals(
+            [
+                \Hello\World::class => ['all' => true],
+                \Foo\Bar::class => ['all' => true],
+                \Bar\Foo::class => ['dev' => true]
+            ],
+            include(static::CONFIG_PATH . '/config/bundles.php')
+        );
+    }
+
+    public function testInstallAlreadyInstalledWithWrongBundles()
+    {
+        $package = $this->createMock(PackageInterface::class);
+        $package->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([]);
+
+        $composer = $this->createMock(Composer::class);
+        $composer->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($package);
+
+        $event = $this->createMock(PackageEvent::class);
+        $event->expects(self::any())
+            ->method('getComposer')
+            ->willReturn($composer);
+
         self::assertInstanceOf(
             ActionInterface::class,
             $this->buildAction()->install(

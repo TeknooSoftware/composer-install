@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.3] - 2020-11-24
+###Dev Release
+- Fix bundles.php update when array_merge_recursive works on doublons to union all boolean value for each env
+ 
 ##[0.0.2] - 2020-11-23
 ###Dev Release
 - Add configuration to define in installer's actions in the composer.json's extra, and disabled behavior to not 

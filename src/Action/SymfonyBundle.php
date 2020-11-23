@@ -62,10 +62,24 @@ class SymfonyBundle implements ActionInterface
      */
     private function mergeBundles(array $installedBundles, array $newBundles): array
     {
-        return \array_merge_recursive(
+        $bundles = \array_merge_recursive(
             $newBundles,
             $installedBundles
         );
+
+        //To avoid doulon in envs
+        foreach ($bundles as &$envs) {
+            $envs = \array_map(
+                fn ($value) => (bool) \array_reduce(
+                    (array) $value,
+                    fn ($a, $b) => $a || $b,
+                    true
+                ),
+                $envs
+            );
+        }
+
+        return $bundles;
     }
 
     /**
