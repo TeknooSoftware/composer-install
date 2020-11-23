@@ -30,6 +30,7 @@ use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 use PHPUnit\Framework\TestCase;
 use Teknoo\Composer\Action\ActionInterface;
 use Teknoo\Composer\Installer;
@@ -244,6 +245,102 @@ class InstallerTest extends TestCase
                 PackageEvent $event,
                 IOInterface $io
             ): ActionInterface {
+                return $this;
+            }
+        };
+
+        $package = $this->createMock(PackageInterface::class);
+        $package->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([
+                Installer::class => [
+                    \get_class($mock) => []
+                ]
+            ]);
+
+        $package->expects(self::any())
+            ->method('getName')
+            ->willReturn('foo/bar');
+
+        $operation = $this->createMock(InstallOperation::class);
+        $operation->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($package);
+
+        $event = $this->createMock(PackageEvent::class);
+        $event->expects(self::any())
+            ->method('getOperation')
+            ->willReturn($operation);
+
+        self::assertInstanceOf(
+            Installer::class,
+            $installer->postInstall($event)
+        );
+    }
+
+    public function testPostInstallWithExtraValidButDisabled()
+    {
+        $installer = $this->buildInstaller();
+
+        $rootPackage = $this->createMock(RootPackageInterface::class);
+        $rootPackage->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([
+                Installer::class => [
+                    Installer::CONFIG_KEY => [
+                        Installer::CONFIG_DISABLED_KEY => true,
+                    ],
+                ],
+            ]);
+
+        $composer = $this->createMock(Composer::class);
+        $composer->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($rootPackage);
+
+        $io = $this->createMock(IOInterface::class);
+        $io->expects(self::never())
+            ->method('writeError');
+
+        self::assertInstanceOf(
+            Installer::class,
+            $installer->activate(
+                $composer,
+                $io
+            )
+        );
+
+        $mock = new class implements ActionInterface {
+            public function install(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+
+            public function update(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+
+            public function uninstall(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
                 return $this;
             }
         };
@@ -529,6 +626,102 @@ class InstallerTest extends TestCase
         );
     }
 
+    public function testPostUpdateWithExtraValidButDisabled()
+    {
+        $installer = $this->buildInstaller();
+
+        $rootPackage = $this->createMock(RootPackageInterface::class);
+        $rootPackage->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([
+                Installer::class => [
+                    Installer::CONFIG_KEY => [
+                        Installer::CONFIG_DISABLED_KEY => true,
+                    ],
+                ],
+            ]);
+
+        $composer = $this->createMock(Composer::class);
+        $composer->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($rootPackage);
+
+        $io = $this->createMock(IOInterface::class);
+        $io->expects(self::never())
+            ->method('writeError');
+
+        self::assertInstanceOf(
+            Installer::class,
+            $installer->activate(
+                $composer,
+                $io
+            )
+        );
+
+        $mock = new class implements ActionInterface {
+            public function install(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+
+            public function update(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+
+            public function uninstall(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+        };
+
+        $package = $this->createMock(PackageInterface::class);
+        $package->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([
+                Installer::class => [
+                    \get_class($mock) => []
+                ]
+            ]);
+
+        $package->expects(self::any())
+            ->method('getName')
+            ->willReturn('foo/bar');
+
+        $operation = $this->createMock(UpdateOperation::class);
+        $operation->expects(self::any())
+            ->method('getTargetPackage')
+            ->willReturn($package);
+
+        $event = $this->createMock(PackageEvent::class);
+        $event->expects(self::any())
+            ->method('getOperation')
+            ->willReturn($operation);
+
+        self::assertInstanceOf(
+            Installer::class,
+            $installer->postUpdate($event)
+        );
+    }
+
     public function testPostUpdateWithExtraValidButExceptionInAction()
     {
         $this->expectException(\Exception::class);
@@ -750,6 +943,102 @@ class InstallerTest extends TestCase
                 PackageEvent $event,
                 IOInterface $io
             ): ActionInterface {
+                return $this;
+            }
+        };
+
+        $package = $this->createMock(PackageInterface::class);
+        $package->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([
+                Installer::class => [
+                    \get_class($mock) => []
+                ]
+            ]);
+
+        $package->expects(self::any())
+            ->method('getName')
+            ->willReturn('foo/bar');
+
+        $operation = $this->createMock(UninstallOperation::class);
+        $operation->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($package);
+
+        $event = $this->createMock(PackageEvent::class);
+        $event->expects(self::any())
+            ->method('getOperation')
+            ->willReturn($operation);
+
+        self::assertInstanceOf(
+            Installer::class,
+            $installer->postUninstall($event)
+        );
+    }
+
+    public function testPostUninstallWithExtraValidButDisabled()
+    {
+        $installer = $this->buildInstaller();
+
+        $rootPackage = $this->createMock(RootPackageInterface::class);
+        $rootPackage->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([
+                Installer::class => [
+                    Installer::CONFIG_KEY => [
+                        Installer::CONFIG_DISABLED_KEY => true,
+                    ],
+                ],
+            ]);
+
+        $composer = $this->createMock(Composer::class);
+        $composer->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($rootPackage);
+
+        $io = $this->createMock(IOInterface::class);
+        $io->expects(self::never())
+            ->method('writeError');
+
+        self::assertInstanceOf(
+            Installer::class,
+            $installer->activate(
+                $composer,
+                $io
+            )
+        );
+
+        $mock = new class implements ActionInterface {
+            public function install(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+
+            public function update(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
+                return $this;
+            }
+
+            public function uninstall(
+                string $packageName,
+                array $arguments,
+                PackageEvent $event,
+                IOInterface $io
+            ): ActionInterface {
+                throw new \RuntimeException('Must not be called');
+
                 return $this;
             }
         };

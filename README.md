@@ -30,6 +30,10 @@ Quick Example
         [...]
         "extra": {
             "Teknoo\\Composer\\Installer": {
+                "config": {
+                    #To configure Teknoo\\Composer\\Installer
+                    #disabled: true #to disabled installer in the current composer project
+                },
                 #To add some bundle in bundles.php
                 "Teknoo\\Composer\\Action\\SymfonyBundle": {
                     "Your\\Company\\Bundle": {"all":  true},

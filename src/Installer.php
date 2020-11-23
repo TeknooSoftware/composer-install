@@ -30,6 +30,8 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
+use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
 use Teknoo\Composer\Action\ActionInterface;
 
@@ -44,9 +46,17 @@ use Teknoo\Composer\Action\ActionInterface;
  */
 class Installer implements PluginInterface, EventSubscriberInterface
 {
+    public const CONFIG_KEY = 'config';
+    public const CONFIG_DISABLED_KEY = 'disabled';
+
     private static bool $activated = true;
 
     private ?IOInterface $io = null;
+
+    /**
+     * @var array<string, mixed>
+     */
+    private array $config = [];
 
     /**
      * @return array<string, array<string>>
@@ -94,11 +104,11 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         $extra = $package->getExtra();
 
-        if (empty($extra[self::class])) {
+        if (empty($extra[static::class])) {
             return [null, []];
         }
 
-        return [$package->getName(), $extra[self::class]];
+        return [$package->getName(), $extra[static::class]];
     }
 
     /**
@@ -128,7 +138,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function postInstall(PackageEvent $event): self
     {
         [$packageName, $extra] = $this->getExtra($event->getOperation());
-        if (empty($extra)) {
+        if (empty($extra) || !empty($this->config[static::CONFIG_DISABLED_KEY])) {
             return $this;
         }
 
@@ -149,7 +159,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function postUpdate(PackageEvent $event): self
     {
         [$packageName, $extra] = $this->getExtra($event->getOperation());
-        if (empty($extra)) {
+        if (empty($extra) || !empty($this->config[static::CONFIG_DISABLED_KEY])) {
             return $this;
         }
 
@@ -170,7 +180,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function postUninstall(PackageEvent $event): self
     {
         [$packageName, $extra] = $this->getExtra($event->getOperation());
-        if (empty($extra)) {
+        if (empty($extra) || !empty($this->config[static::CONFIG_DISABLED_KEY])) {
             return $this;
         }
 
@@ -193,7 +203,16 @@ class Installer implements PluginInterface, EventSubscriberInterface
         self::$activated = true;
         $this->io = $io;
 
-        $io->write('Enable Teknoo Composer Installer');
+        $rootPackage = $composer->getPackage();
+        if ($rootPackage instanceof RootPackageInterface) {
+            $extra = $rootPackage->getExtra();
+
+            if (!empty($extra[static::class][static::CONFIG_KEY])) {
+                $this->config = $extra[static::class][static::CONFIG_KEY];
+            }
+        }
+
+        $io->write('Teknoo Composer Installer activated');
 
         return $this;
     }
@@ -201,16 +220,17 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function deactivate(Composer $composer, IOInterface $io): self
     {
         self::$activated = false;
-        $this->io = $io;
+        $this->io = null;
+        $this->config = [];
 
-        $io->write('Disable Teknoo Composer Installer');
+        $io->write('Teknoo Composer Installer deactivated');
 
         return $this;
     }
 
     public function uninstall(Composer $composer, IOInterface $io): self
     {
-        $io->write('Uninstall Teknoo Composer Installer');
+        $io->write('Teknoo Composer Installer uninstalled');
 
         return $this;
     }
