@@ -24,6 +24,7 @@ namespace Teknoo\Composer\Action;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
+use SebastianBergmann\Diff\Differ;
 
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
@@ -76,16 +77,20 @@ abstract class FilesAction implements ActionInterface
             \mkdir($destinationPath, 0777, true);
         }
 
-        if (
-            \file_exists($path)
-            && !$io->askConfirmation("$fileName already exist, remplace it ? (yes/no)" . PHP_EOL, false)
-        ) {
-            return;
+        $content = $this->parseContent($fileName, $content);
+
+        if (\file_exists($path)) {
+            $differ = new Differ();
+            $io->write($differ->diff(\file_get_contents($path), $content));
+
+            if (!$io->askConfirmation("$fileName already exist, remplace it ? (yes/no)" . PHP_EOL, false)) {
+                return;
+            }
         }
 
         $io->write("Write $fileName");
 
-        \file_put_contents($path, $this->parseContent($fileName, $content));
+        \file_put_contents($path, $content);
     }
 
     /**
