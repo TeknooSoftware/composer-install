@@ -81,7 +81,7 @@ abstract class FilesAction implements ActionInterface
 
         if (\file_exists($path)) {
             $differ = new Differ();
-            $io->write($differ->diff(\file_get_contents($path), $content));
+            $io->write($differ->diff((string) \file_get_contents($path), $content));
 
             if (!$io->askConfirmation("$fileName already exist, remplace it ? (yes/no)" . PHP_EOL, false)) {
                 return;
