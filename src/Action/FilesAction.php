@@ -24,7 +24,6 @@ namespace Teknoo\Composer\Action;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
-use SebastianBergmann\Diff\Differ;
 
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
@@ -79,16 +78,14 @@ abstract class FilesAction implements ActionInterface
 
         $content = $this->parseContent($fileName, $content);
 
-        if (\file_exists($path)) {
-            $differ = new Differ();
-            $io->write($differ->diff((string) \file_get_contents($path), $content));
-
-            if (!$io->askConfirmation("$fileName already exist, remplace it ? (yes/no)" . PHP_EOL, false)) {
-                return;
-            }
+        if (
+            \file_exists($path)
+            && !$io->askConfirmation("$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL, false)
+        ) {
+            return;
         }
 
-        $io->write("Write $fileName");
+        $io->write("Extract $fileName in $destinationPath");
 
         \file_put_contents($path, $content);
     }
@@ -127,12 +124,12 @@ abstract class FilesAction implements ActionInterface
         $path = $this->getDestinationPath($package);
 
         $io->write("Clean configuration from $packageName");
-        if (!$io->askConfirmation("Conform cleaning files configured for $packageName ? (yes/no)" . PHP_EOL, true)) {
+        if (!$io->askConfirmation("Confirm remove files from $packageName ? (yes/no)" . PHP_EOL, true)) {
             return;
         }
 
         foreach (\array_keys($arguments) as $fileName) {
-            $io->write("Delete $fileName");
+            $io->write("Delete $path/$fileName");
             $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
             @\unlink($filePath);
         }

@@ -33,6 +33,8 @@ use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
 use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
+use Composer\Repository\RepositoryManager;
+use DI\Container;
 use Teknoo\Composer\Action\ActionInterface;
 
 /**
@@ -198,6 +200,15 @@ class Installer implements PluginInterface, EventSubscriberInterface
         return $this;
     }
 
+    private function loadConfiguration(RootPackageInterface $rootPackage): void
+    {
+        $extra = $rootPackage->getExtra();
+
+        if (!empty($extra[static::class][static::CONFIG_KEY])) {
+            $this->config = $extra[static::class][static::CONFIG_KEY];
+        }
+    }
+
     public function activate(Composer $composer, IOInterface $io): self
     {
         self::$activated = true;
@@ -205,11 +216,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         $rootPackage = $composer->getPackage();
         if ($rootPackage instanceof RootPackageInterface) {
-            $extra = $rootPackage->getExtra();
-
-            if (!empty($extra[static::class][static::CONFIG_KEY])) {
-                $this->config = $extra[static::class][static::CONFIG_KEY];
-            }
+            $this->loadConfiguration($rootPackage);
         }
 
         $io->write('Teknoo Composer Installer activated');
