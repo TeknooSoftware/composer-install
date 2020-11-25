@@ -76,6 +76,8 @@ abstract class FilesAction implements ActionInterface
             \mkdir($destinationPath, 0777, true);
         }
 
+        $destinationPath = \realpath($destinationPath);
+
         $content = $this->parseContent($fileName, $content);
 
         $message = "$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL;

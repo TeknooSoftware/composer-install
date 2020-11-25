@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.6] - 2020-11-25
+###Dev Release
+- Fix path displayed using \realpath
+
 ##[0.0.5] - 2020-11-25
 ###Dev Release
 - Clean prompted texts
