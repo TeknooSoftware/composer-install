@@ -78,9 +78,10 @@ abstract class FilesAction implements ActionInterface
 
         $content = $this->parseContent($fileName, $content);
 
+        $message = "$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL;
         if (
             \file_exists($path)
-            && !$io->askConfirmation("$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL, false)
+            && !$io->askConfirmation($message, false)
         ) {
             return;
         }
