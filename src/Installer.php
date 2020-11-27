@@ -106,11 +106,11 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         $extra = $package->getExtra();
 
-        if (empty($extra[static::class])) {
+        if (empty($extra[self::class])) {
             return [null, []];
         }
 
-        return [$package->getName(), $extra[static::class]];
+        return [$package->getName(), $extra[self::class]];
     }
 
     /**
@@ -204,8 +204,8 @@ class Installer implements PluginInterface, EventSubscriberInterface
     {
         $extra = $rootPackage->getExtra();
 
-        if (!empty($extra[static::class][static::CONFIG_KEY])) {
-            $this->config = $extra[static::class][static::CONFIG_KEY];
+        if (!empty($extra[self::class][static::CONFIG_KEY])) {
+            $this->config = $extra[self::class][static::CONFIG_KEY];
         }
     }
 

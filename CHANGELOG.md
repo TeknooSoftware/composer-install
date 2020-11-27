@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.7] - 2020-11-27
+###Dev Release
+- Fix installer when the command `composer require` is used instead of `composer update`
+
 ##[0.0.6] - 2020-11-25
 ###Dev Release
 - Fix path displayed using \realpath
