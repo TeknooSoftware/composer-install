@@ -30,11 +30,8 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Installer\PackageEvent;
 use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
-use Composer\Package\PackageInterface;
 use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
-use Composer\Repository\RepositoryManager;
-use DI\Container;
 use Teknoo\Composer\Action\ActionInterface;
 
 /**
@@ -48,6 +45,7 @@ use Teknoo\Composer\Action\ActionInterface;
  */
 class Installer implements PluginInterface, EventSubscriberInterface
 {
+    public const PLUGIN_IDENTIFIER = 'Teknoo\\Composer\\Installer';
     public const CONFIG_KEY = 'config';
     public const CONFIG_DISABLED_KEY = 'disabled';
 
@@ -65,7 +63,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        if (!self::$activated) {
+        if (!static::$activated) {
             return [];
         }
 
@@ -106,11 +104,11 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         $extra = $package->getExtra();
 
-        if (empty($extra[self::class])) {
+        if (empty($extra[static::PLUGIN_IDENTIFIER])) {
             return [null, []];
         }
 
-        return [$package->getName(), $extra[self::class]];
+        return [$package->getName(), $extra[static::PLUGIN_IDENTIFIER]];
     }
 
     /**
@@ -204,14 +202,14 @@ class Installer implements PluginInterface, EventSubscriberInterface
     {
         $extra = $rootPackage->getExtra();
 
-        if (!empty($extra[self::class][static::CONFIG_KEY])) {
-            $this->config = $extra[self::class][static::CONFIG_KEY];
+        if (!empty($extra[static::PLUGIN_IDENTIFIER][static::CONFIG_KEY])) {
+            $this->config = $extra[static::PLUGIN_IDENTIFIER][static::CONFIG_KEY];
         }
     }
 
     public function activate(Composer $composer, IOInterface $io): self
     {
-        self::$activated = true;
+        static::$activated = true;
         $this->io = $io;
 
         $rootPackage = $composer->getPackage();
@@ -226,7 +224,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
     public function deactivate(Composer $composer, IOInterface $io): self
     {
-        self::$activated = false;
+        static::$activated = false;
         $this->io = null;
         $this->config = [];
 
