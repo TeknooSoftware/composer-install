@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.9] - 2020-12-03
+###Stable Release
+- Official Support of PHP8
+
 ##[0.0.8] - 2020-11-27
 ###Dev Release
 - Fix installer when the command `composer require` is used instead of `composer update`
