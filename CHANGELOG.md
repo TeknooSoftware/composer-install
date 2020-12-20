@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.10] - 2020-12-20
+###Stable Release
+- ignore when a file already exists but is identical to package
+
 ##[0.0.9] - 2020-12-03
 ###Stable Release
 - Official Support of PHP8
