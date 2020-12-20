@@ -272,7 +272,7 @@ EOF,
             ->willReturn($composer);
 
         $io = $this->createMock(IOInterface::class);
-        $io->expects(self::any())
+        $io->expects(self::once())
             ->method('askConfirmation')
             ->willReturn(false);
 
@@ -339,12 +339,78 @@ EOF,
             ->willReturn($composer);
 
         $io = $this->createMock(IOInterface::class);
-        $io->expects(self::any())
+        $io->expects(self::once())
             ->method('askConfirmation')
             ->willReturn(true);
 
         \mkdir(static::CONFIG_PATH . '/config/packages', 0777, true);
         @\touch(static::CONFIG_PATH . '/config/packages/string.yaml');
+
+        self::assertInstanceOf(
+            ActionInterface::class,
+            $this->buildAction()->install(
+                'foo',
+                [
+                    "string.yaml" => 'foo/bar',
+                    "array.yaml" => [
+                        "# Read the documentation:",
+                        "foo:",
+                        "  bar:",
+                        "    - 'hello'",
+                    ],
+                    "base64.yaml" => [
+                        "base64" => \base64_encode("bar/foo")
+                    ],
+                ],
+                $event,
+                $io
+            )
+        );
+
+        self::assertEquals(
+            'foo/bar',
+            \file_get_contents(static::CONFIG_PATH . '/config/packages/string.yaml')
+        );
+
+        self::assertEquals(
+<<<EOF
+# Read the documentation:
+foo:
+  bar:
+    - 'hello'
+EOF,
+            \file_get_contents(static::CONFIG_PATH . '/config/packages/array.yaml')
+        );
+
+        self::assertEquals(
+            'bar/foo',
+            \file_get_contents(static::CONFIG_PATH . '/config/packages/base64.yaml')
+        );
+    }
+
+    public function testInstallOverwritteByPassFileAreEqual()
+    {
+        $package = $this->createMock(PackageInterface::class);
+        $package->expects(self::any())
+            ->method('getExtra')
+            ->willReturn([]);
+
+        $composer = $this->createMock(Composer::class);
+        $composer->expects(self::any())
+            ->method('getPackage')
+            ->willReturn($package);
+
+        $event = $this->createMock(PackageEvent::class);
+        $event->expects(self::any())
+            ->method('getComposer')
+            ->willReturn($composer);
+
+        $io = $this->createMock(IOInterface::class);
+        $io->expects(self::never())
+            ->method('askConfirmation');
+
+        \mkdir(static::CONFIG_PATH . '/config/packages', 0777, true);
+        \file_put_contents(static::CONFIG_PATH . '/config/packages/string.yaml', 'foo/bar');
 
         self::assertInstanceOf(
             ActionInterface::class,
