@@ -217,8 +217,6 @@ class Installer implements PluginInterface, EventSubscriberInterface
             $this->loadConfiguration($rootPackage);
         }
 
-        $io->write('Teknoo Composer Installer activated');
-
         return $this;
     }
 
@@ -227,8 +225,6 @@ class Installer implements PluginInterface, EventSubscriberInterface
         static::$activated = false;
         $this->io = null;
         $this->config = [];
-
-        $io->write('Teknoo Composer Installer deactivated');
 
         return $this;
     }

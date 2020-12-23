@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.11] - 2020-12-2$
+###Stable Release
+- Remove info outputs about activation/desactivation
+
 ##[0.0.10] - 2020-12-20
 ###Stable Release
 - ignore when a file already exists but is identical to package
