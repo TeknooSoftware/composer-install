@@ -3,7 +3,7 @@
 /*
  * LICENSE
  *
- * This source file is subject to the MIT license and the version 3 of the GPL3
+ * This source file is subject to the MIT license
  * license that are bundled with this package in the folder licences
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -32,7 +32,12 @@ use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
+use ReflectionClass;
+use ReflectionException;
 use Teknoo\Composer\Action\ActionInterface;
+use Throwable;
+
+use function class_exists;
 
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
@@ -114,16 +119,16 @@ class Installer implements PluginInterface, EventSubscriberInterface
     /**
      * @param array<string, mixed> $extra
      * @return iterable<ActionInterface, array>
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     private function browseAction(string $packageName, array &$extra): iterable
     {
         foreach ($extra as $actionClass => $arguments) {
-            if (!\class_exists($actionClass)) {
+            if (!class_exists($actionClass)) {
                 continue;
             }
 
-            $reflectionClass = new \ReflectionClass($actionClass);
+            $reflectionClass = new ReflectionClass($actionClass);
             if (!$reflectionClass->implementsInterface(ActionInterface::class)) {
                 $this->getIo()->writeError("class $actionClass must implements the ActionInterface");
 
@@ -145,7 +150,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
         foreach ($this->browseAction($packageName, $extra) as $action => $arguments) {
             try {
                 $action->install($packageName, $arguments, $event, $this->io);
-            } catch (\Throwable $error) {
+            } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
 
@@ -166,7 +171,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
         foreach ($this->browseAction($packageName, $extra) as $action => $arguments) {
             try {
                 $action->update($packageName, $arguments, $event, $this->io);
-            } catch (\Throwable $error) {
+            } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
 
@@ -187,7 +192,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
         foreach ($this->browseAction($packageName, $extra) as $action => $arguments) {
             try {
                 $action->uninstall($packageName, $arguments, $event, $this->io);
-            } catch (\Throwable $error) {
+            } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
 

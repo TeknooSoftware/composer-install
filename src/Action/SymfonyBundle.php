@@ -3,7 +3,7 @@
 /*
  * LICENSE
  *
- * This source file is subject to the MIT license and the version 3 of the GPL3
+ * This source file is subject to the MIT license
  * license that are bundled with this package in the folder licences
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -24,6 +24,18 @@ namespace Teknoo\Composer\Action;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
+
+use function array_diff_key;
+use function array_map;
+use function array_merge_recursive;
+use function array_reduce;
+use function dirname;
+use function file_exists;
+use function file_put_contents;
+use function function_exists;
+use function is_dir;
+use function mkdir;
+use function opcache_invalidate;
 
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
@@ -48,7 +60,7 @@ class SymfonyBundle implements ActionInterface
      */
     private function getBundles(string $path): array
     {
-        if (!\file_exists($path)) {
+        if (!file_exists($path)) {
             return [];
         }
 
@@ -62,15 +74,15 @@ class SymfonyBundle implements ActionInterface
      */
     private function mergeBundles(array $installedBundles, array $newBundles): array
     {
-        $bundles = \array_merge_recursive(
+        $bundles = array_merge_recursive(
             $newBundles,
             $installedBundles
         );
 
         //To avoid doulon in envs
         foreach ($bundles as &$envs) {
-            $envs = \array_map(
-                fn ($value) => (bool) \array_reduce(
+            $envs = array_map(
+                fn ($value) => (bool) array_reduce(
                     (array) $value,
                     fn ($a, $b) => $a || $b,
                     true
@@ -89,7 +101,7 @@ class SymfonyBundle implements ActionInterface
      */
     private function removeBundles(array $installedBundles, array $newBundles): array
     {
-        return \array_diff_key(
+        return array_diff_key(
             $installedBundles,
             $newBundles
         );
@@ -113,14 +125,14 @@ class SymfonyBundle implements ActionInterface
         }
         $contents .= "];\n";
 
-        if (!\is_dir(\dirname($path))) {
-            \mkdir(\dirname($path), 0777, true);
+        if (!is_dir(dirname($path))) {
+            mkdir(dirname($path), 0777, true);
         }
 
-        \file_put_contents($path, $contents);
+        file_put_contents($path, $contents);
 
-        if (\function_exists('opcache_invalidate')) {
-            \opcache_invalidate($path);
+        if (function_exists('opcache_invalidate')) {
+            opcache_invalidate($path);
         }
     }
 

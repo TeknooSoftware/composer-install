@@ -1,6 +1,13 @@
 #Teknoo Software - Composer Install - Change Log
 
-##[0.0.11] - 2020-12-2$
+##[0.0.12] - 2021-03-20
+###Stable Release
+- Migrate to PHP 8.0
+- Remove support of Composer 1.x
+- QA
+- Fix license header
+
+##[0.0.11] - 2020-12-25
 ###Stable Release
 - Remove info outputs about activation/desactivation
 

@@ -3,7 +3,7 @@
 /*
  * LICENSE
  *
- * This source file is subject to the MIT license and the version 3 of the GPL3
+ * This source file is subject to the MIT license
  * license that are bundled with this package in the folder licences
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -24,6 +24,22 @@ namespace Teknoo\Composer\Action;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
+use RuntimeException;
+
+use function array_keys;
+use function base64_decode;
+use function current;
+use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
+use function implode;
+use function is_dir;
+use function is_string;
+use function key;
+use function mkdir;
+use function realpath;
+use function reset;
+use function unlink;
 
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
@@ -41,49 +57,45 @@ abstract class FilesAction implements ActionInterface
     /**
      * @param string|array<int|string, mixed> $content
      */
-    private function parseContent(string $fileName, &$content): string
+    private function parseContent(string $fileName, string | array &$content): string
     {
-        if (\is_string($content)) {
+        if (is_string($content)) {
             return $content;
         }
 
-        if (!\is_array($content)) {
-            throw new \RuntimeException("Content type is not supported for $fileName");
-        }
-
-        \reset($content);
-        $key = \key($content);
+        reset($content);
+        $key = key($content);
 
         if (0 === $key) {
-            return \implode(PHP_EOL, $content);
+            return implode(PHP_EOL, $content);
         }
 
         if ('base64' === $key) {
-            return \base64_decode(\current($content));
+            return base64_decode(current($content));
         }
 
-        throw new \RuntimeException("Content type $key for $fileName is not supported");
+        throw new RuntimeException("Content type $key for $fileName is not supported");
     }
 
     /**
      * @param string|array<int|string, mixed> $content
      */
-    private function write(IOInterface $io, string $destinationPath, string $fileName, &$content): void
+    private function write(IOInterface $io, string $destinationPath, string $fileName, string | array &$content): void
     {
         $path = $destinationPath . $fileName;
 
-        if (!\is_dir($destinationPath)) {
-            \mkdir($destinationPath, 0777, true);
+        if (!is_dir($destinationPath)) {
+            mkdir($destinationPath, 0777, true);
         }
 
-        $destinationPath = \realpath($destinationPath);
+        $destinationPath = realpath($destinationPath);
 
         $content = $this->parseContent($fileName, $content);
 
         $message = "$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL;
         if (
-            \file_exists($path)
-            && \file_get_contents($path) !== $content
+            file_exists($path)
+            && file_get_contents($path) !== $content
             && !$io->askConfirmation($message, false)
         ) {
             return;
@@ -91,7 +103,7 @@ abstract class FilesAction implements ActionInterface
 
         $io->write("Extract $fileName in $destinationPath");
 
-        \file_put_contents($path, $content);
+        file_put_contents($path, $content);
     }
 
     /**
@@ -132,10 +144,10 @@ abstract class FilesAction implements ActionInterface
             return;
         }
 
-        foreach (\array_keys($arguments) as $fileName) {
+        foreach (array_keys($arguments) as $fileName) {
             $io->write("Delete $path/$fileName");
             $filePath = $path . DIRECTORY_SEPARATOR . $fileName;
-            @\unlink($filePath);
+            @unlink($filePath);
         }
     }
 

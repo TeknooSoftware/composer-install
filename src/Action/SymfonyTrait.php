@@ -3,7 +3,7 @@
 /*
  * LICENSE
  *
- * This source file is subject to the MIT license and the version 3 of the GPL3
+ * This source file is subject to the MIT license
  * license that are bundled with this package in the folder licences
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -23,6 +23,8 @@ namespace Teknoo\Composer\Action;
 
 use Composer\Package\PackageInterface;
 
+use function getcwd;
+
 /**
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
  * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
@@ -41,6 +43,6 @@ trait SymfonyTrait
         $configDir = $config['config-dir'] ?? 'config';
         $rootDir = $config['root-dir'] ?? '.';
 
-        return \getcwd() . DIRECTORY_SEPARATOR . $rootDir . DIRECTORY_SEPARATOR . $configDir;
+        return getcwd() . DIRECTORY_SEPARATOR . $rootDir . DIRECTORY_SEPARATOR . $configDir;
     }
 }
