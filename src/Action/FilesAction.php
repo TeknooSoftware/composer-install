@@ -66,15 +66,11 @@ abstract class FilesAction implements ActionInterface
         reset($content);
         $key = key($content);
 
-        if (0 === $key) {
-            return implode(PHP_EOL, $content);
-        }
-
-        if ('base64' === $key) {
-            return base64_decode(current($content));
-        }
-
-        throw new RuntimeException("Content type $key for $fileName is not supported");
+        return match ($key) {
+            0 => implode(PHP_EOL, $content),
+            'base64' => base64_decode(current($content)),
+            default => throw new RuntimeException("Content type $key for $fileName is not supported"),
+        };
     }
 
     /**
