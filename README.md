@@ -1,7 +1,6 @@
 Teknoo Software - Composer Intsall
 ==================================
 
-[![Build Status](https://travis-ci.com/TeknooSoftware/composer-install.svg?branch=master)](https://travis-ci.com/TeknooSoftware/composer-install)
 [![Latest Stable Version](https://poser.pugx.org/teknoo/composer-install/v/stable)](https://packagist.org/packages/teknoo/composer-install)
 [![Latest Unstable Version](https://poser.pugx.org/teknoo/composer-install/v/unstable)](https://packagist.org/packages/teknoo/composer-install)
 [![Total Downloads](https://poser.pugx.org/teknoo/composer-install/downloads)](https://packagist.org/packages/teknoo/composer-install)
