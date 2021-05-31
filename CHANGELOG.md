@@ -1,5 +1,9 @@
 #Teknoo Software - Composer Install - Change Log
 
+##[0.0.13] - 2021-05-31
+###Stable Release
+- Minor version about libs requirements
+
 ##[0.0.12] - 2021-03-20
 ###Stable Release
 - Migrate to PHP 8.0
