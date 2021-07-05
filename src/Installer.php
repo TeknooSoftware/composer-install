@@ -40,6 +40,13 @@ use Throwable;
 use function class_exists;
 
 /**
+ * Composer Plugin to perform some actions after install, update or delete, referenced under the key
+ * Installer::PLUGIN_IDENTIFIER.
+ * Each action must be defined via a class implementing `Teknoo\Composer\Action\ActionInterface`. This plugin, when
+ * an action is configured, and available, by a package in the root composer.json or the composer.json of a package,
+ * will create a new instance via the reflection and pass arguments and the current IO instance to dialog with user.
+ * If an action is not available (class does not exist), the configuration is skipped.
+ *
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
  * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
  *
@@ -85,6 +92,9 @@ class Installer implements PluginInterface, EventSubscriberInterface
     }
 
     /**
+     * Get configuration defined in extra, for Install, Update or Uninstall operation, for the new package.
+     * (If update, use configuration defined in the new package).
+     *
      * @param OperationInterface $operation
      * @return array<string|int|null, mixed>
      */
@@ -116,7 +126,16 @@ class Installer implements PluginInterface, EventSubscriberInterface
         return [$package->getName(), $extra[static::PLUGIN_IDENTIFIER]];
     }
 
+    /*
+     * Event about package's lifecycle
+     */
+
     /**
+     * Fetch all actions defined in the extra dedicated to this plugin. If an action is found (class exists) but it not
+     * implements the interface ActionInterface, an error will be print and this action will be skipped.
+     * If an action does not exist, its configuration is skipped
+     * Else, a new instance of this action class will be instanciated.
+     *
      * @param array<string, mixed> $extra
      * @return iterable<ActionInterface, array>
      * @throws ReflectionException
@@ -203,6 +222,9 @@ class Installer implements PluginInterface, EventSubscriberInterface
         return $this;
     }
 
+    /*
+     * Events about plugin's lifecycle
+     */
     private function loadConfiguration(RootPackageInterface $rootPackage): void
     {
         $extra = $rootPackage->getExtra();

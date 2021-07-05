@@ -24,6 +24,9 @@ namespace Teknoo\Composer\Action;
 use Composer\Package\PackageInterface;
 
 /**
+ * Action to create some configuration files into /config/packages for Symfony Project, to auto-configure Symfony Bundle
+ * Build on `FilesAction`
+ *
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
  * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
  *

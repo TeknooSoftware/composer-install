@@ -26,6 +26,9 @@ use Composer\Package\PackageInterface;
 use function getcwd;
 
 /**
+ * Trait to detect the current project's config dir and the current project's root dir of a Symfony project, required
+ * by `SymfonyPackages` and `SymfonyRoutes`.
+ *
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
  * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
  *

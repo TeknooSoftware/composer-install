@@ -73,8 +73,8 @@ To install this library with composer, run this command :
 
 This library requires :
 
-    * PHP 7.4+
-    * Composer 1.10 or 2.0+
+    * PHP 8.0+
+    * Composer 2.0+
 
 Credits
 -------

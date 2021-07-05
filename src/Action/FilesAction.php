@@ -41,7 +41,15 @@ use function realpath;
 use function reset;
 use function unlink;
 
+use const PHP_EOL;
+
 /**
+ * Abstract class to create actions to create/update/delete new file in the project's filesystem, with contents from
+ * extra in composer.json. The content can be a json array, each line is a new row, or a base64 encoded text.
+ *
+ * Files will be created or updated on install or update operation, and will be deleted (if configured by the user) on
+ * delete. If the file already exist, this class will require a user's confirmation.
+ *
  * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
  * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
  *
@@ -74,6 +82,9 @@ abstract class FilesAction implements ActionInterface
     }
 
     /**
+     * Write a file from its content. If the file already exist, will require a user's confirmation, unless if the
+     * current content is identical to new content
+     * .
      * @param string|array<int|string, mixed> $content
      */
     private function write(IOInterface $io, string $destinationPath, string $fileName, string | array &$content): void
@@ -88,10 +99,10 @@ abstract class FilesAction implements ActionInterface
 
         $content = $this->parseContent($fileName, $content);
 
-        $message = "$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL;
+        $message = PHP_EOL . "$destinationPath/$fileName already exist, remplace it ? (yes/no)" . PHP_EOL;
         if (
             file_exists($path)
-            && file_get_contents($path) !== $content
+            && trim((string) file_get_contents($path)) !== trim($content)
             && !$io->askConfirmation($message, false)
         ) {
             return;
@@ -136,7 +147,7 @@ abstract class FilesAction implements ActionInterface
         $path = $this->getDestinationPath($package);
 
         $io->write("Clean configuration from $packageName");
-        if (!$io->askConfirmation("Confirm remove files from $packageName ? (yes/no)" . PHP_EOL, true)) {
+        if (!$io->askConfirmation(PHP_EOL . "Confirm remove files from $packageName ? (yes/no)" . PHP_EOL, true)) {
             return;
         }
 
