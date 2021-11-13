@@ -75,7 +75,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
      */
     public static function getSubscribedEvents(): array
     {
-        if (!static::$activated) {
+        if (!self::$activated) {
             return [];
         }
 
@@ -119,11 +119,11 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         $extra = $package->getExtra();
 
-        if (empty($extra[static::PLUGIN_IDENTIFIER])) {
+        if (empty($extra[self::PLUGIN_IDENTIFIER])) {
             return [null, []];
         }
 
-        return [$package->getName(), $extra[static::PLUGIN_IDENTIFIER]];
+        return [$package->getName(), $extra[self::PLUGIN_IDENTIFIER]];
     }
 
     /*
@@ -136,8 +136,8 @@ class Installer implements PluginInterface, EventSubscriberInterface
      * If an action does not exist, its configuration is skipped
      * Else, a new instance of this action class will be instanciated.
      *
-     * @param array<string, mixed> $extra
-     * @return iterable<ActionInterface, array>
+     * @param array<string, array<string, string|array<string, bool>>> $extra
+     * @return iterable<ActionInterface, array<string, string|array<string, bool>>>
      * @throws ReflectionException
      */
     private function browseAction(string $packageName, array &$extra): iterable
@@ -162,13 +162,13 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function postInstall(PackageEvent $event): self
     {
         [$packageName, $extra] = $this->getExtra($event->getOperation());
-        if (empty($extra) || !empty($this->config[static::CONFIG_DISABLED_KEY])) {
+        if (empty($extra) || !empty($this->config[self::CONFIG_DISABLED_KEY])) {
             return $this;
         }
 
-        foreach ($this->browseAction($packageName, $extra) as $action => $arguments) {
+        foreach ($this->browseAction((string) $packageName, $extra) as $action => $arguments) {
             try {
-                $action->install($packageName, $arguments, $event, $this->io);
+                $action->install((string) $packageName, $arguments, $event, $this->io);
             } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
@@ -183,13 +183,13 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function postUpdate(PackageEvent $event): self
     {
         [$packageName, $extra] = $this->getExtra($event->getOperation());
-        if (empty($extra) || !empty($this->config[static::CONFIG_DISABLED_KEY])) {
+        if (empty($extra) || !empty($this->config[self::CONFIG_DISABLED_KEY])) {
             return $this;
         }
 
-        foreach ($this->browseAction($packageName, $extra) as $action => $arguments) {
+        foreach ($this->browseAction((string) $packageName, $extra) as $action => $arguments) {
             try {
-                $action->update($packageName, $arguments, $event, $this->io);
+                $action->update((string) $packageName, $arguments, $event, $this->io);
             } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
@@ -204,13 +204,13 @@ class Installer implements PluginInterface, EventSubscriberInterface
     public function postUninstall(PackageEvent $event): self
     {
         [$packageName, $extra] = $this->getExtra($event->getOperation());
-        if (empty($extra) || !empty($this->config[static::CONFIG_DISABLED_KEY])) {
+        if (empty($extra) || !empty($this->config[self::CONFIG_DISABLED_KEY])) {
             return $this;
         }
 
-        foreach ($this->browseAction($packageName, $extra) as $action => $arguments) {
+        foreach ($this->browseAction((string) $packageName, $extra) as $action => $arguments) {
             try {
-                $action->uninstall($packageName, $arguments, $event, $this->io);
+                $action->uninstall((string) $packageName, $arguments, $event, $this->io);
             } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
@@ -229,14 +229,14 @@ class Installer implements PluginInterface, EventSubscriberInterface
     {
         $extra = $rootPackage->getExtra();
 
-        if (!empty($extra[static::PLUGIN_IDENTIFIER][static::CONFIG_KEY])) {
-            $this->config = $extra[static::PLUGIN_IDENTIFIER][static::CONFIG_KEY];
+        if (!empty($extra[self::PLUGIN_IDENTIFIER][self::CONFIG_KEY])) {
+            $this->config = $extra[self::PLUGIN_IDENTIFIER][self::CONFIG_KEY];
         }
     }
 
     public function activate(Composer $composer, IOInterface $io): self
     {
-        static::$activated = true;
+        self::$activated = true;
         $this->io = $io;
 
         $rootPackage = $composer->getPackage();
@@ -249,7 +249,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
     public function deactivate(Composer $composer, IOInterface $io): self
     {
-        static::$activated = false;
+        self::$activated = false;
         $this->io = null;
         $this->config = [];
 

@@ -63,7 +63,7 @@ abstract class FilesAction implements ActionInterface
     abstract protected function getDestinationPath(PackageInterface $package): string;
 
     /**
-     * @param string|array<int|string, mixed> $content
+     * @param string|array<int|string, string> $content
      */
     private function parseContent(string $fileName, string | array &$content): string
     {
@@ -76,7 +76,7 @@ abstract class FilesAction implements ActionInterface
 
         return match ($key) {
             0 => implode(PHP_EOL, $content),
-            'base64' => base64_decode(current($content)),
+            'base64' => base64_decode((string) current($content)),
             default => throw new RuntimeException("Content type $key for $fileName is not supported"),
         };
     }

@@ -1,5 +1,9 @@
 # Teknoo Software - Composer Install - Change Log
 
+## [0.0.15] - 2021-11-13
+### Dev Release
+- Migrate to PHPStan 1.1+
+
 ## [0.0.14] - 2021-07-05
 ### Dev Release
 - Update documents and dev libs requirements

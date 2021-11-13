@@ -39,7 +39,7 @@ use Composer\IO\IOInterface;
 interface ActionInterface
 {
     /**
-     * @param array<string, mixed> $arguments
+     * @param array<string, string|array<string, bool>> $arguments
      */
     public function install(
         string $packageName,
@@ -49,7 +49,7 @@ interface ActionInterface
     ): ActionInterface;
 
     /**
-     * @param array<string, mixed> $arguments
+     * @param array<string, string|array<string, bool>> $arguments
      */
     public function update(
         string $packageName,
@@ -59,7 +59,7 @@ interface ActionInterface
     ): ActionInterface;
 
     /**
-     * @param array<string, mixed> $arguments
+     * @param array<string, string|array<string, bool>> $arguments
      */
     public function uninstall(
         string $packageName,
