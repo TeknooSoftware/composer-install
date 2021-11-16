@@ -1,13 +1,4 @@
 parameters:
     ignoreErrors:
-        -
-            message: '#Method [a-zA-Z0-9\\_]+::getIo\(\) should return [a-zA-Z0-9\\_]+ but returns [a-zA-Z0-9\\_]+\|null.#'
-            path: src/Installer.php
-        -
-            message: '#Generator expects key type [a-zA-Z0-9\\_]+, object given#'
-            path: src/Installer.php
-        -
-            message: '#Parameter \#[0-9]+ \$io of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9]+\(\) expects [a-zA-Z0-9\\_]+, [a-zA-Z0-9\\_]+\|null given#'
-            path: src/Installer.php
         -   '#mixed#'
         -   '#expects array<string, array<string, bool>>, array<string, array<string, bool>\|string>#'

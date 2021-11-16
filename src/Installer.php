@@ -34,6 +34,7 @@ use Composer\Package\RootPackageInterface;
 use Composer\Plugin\PluginInterface;
 use ReflectionClass;
 use ReflectionException;
+use RuntimeException;
 use Teknoo\Composer\Action\ActionInterface;
 use Throwable;
 
@@ -88,6 +89,10 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
     private function getIo(): IOInterface
     {
+        if (null === $this->io) {
+            throw new RuntimeException('Missing IO instance');
+        }
+
         return $this->io;
     }
 
@@ -147,6 +152,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
                 continue;
             }
 
+            /** @var ReflectionClass<ActionInterface> $reflectionClass */
             $reflectionClass = new ReflectionClass($actionClass);
             if (!$reflectionClass->implementsInterface(ActionInterface::class)) {
                 $this->getIo()->writeError("class $actionClass must implements the ActionInterface");
@@ -168,7 +174,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         foreach ($this->browseAction((string) $packageName, $extra) as $action => $arguments) {
             try {
-                $action->install((string) $packageName, $arguments, $event, $this->io);
+                $action->install((string) $packageName, $arguments, $event, $this->getIo());
             } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
@@ -189,7 +195,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         foreach ($this->browseAction((string) $packageName, $extra) as $action => $arguments) {
             try {
-                $action->update((string) $packageName, $arguments, $event, $this->io);
+                $action->update((string) $packageName, $arguments, $event, $this->getIo());
             } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
@@ -210,7 +216,7 @@ class Installer implements PluginInterface, EventSubscriberInterface
 
         foreach ($this->browseAction((string) $packageName, $extra) as $action => $arguments) {
             try {
-                $action->uninstall((string) $packageName, $arguments, $event, $this->io);
+                $action->uninstall((string) $packageName, $arguments, $event, $this->getIo());
             } catch (Throwable $error) {
                 $this->getIo()->writeError($error->getMessage());
                 $this->getIo()->writeError($error->getFile() . ':' . $error->getLine());
