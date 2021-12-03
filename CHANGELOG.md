@@ -1,5 +1,9 @@
 # Teknoo Software - Composer Install - Change Log
 
+## [0.0.17] - 2021-12-03
+### Stable Release
+- Fix some deprecated with PHP 8.1
+
 ## [0.0.16] - 2021-11-16
 ### Dev Release
 - QA
