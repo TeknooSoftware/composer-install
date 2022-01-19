@@ -31,7 +31,6 @@
     },
     "require":{
         "php": "~8.0",
-        "php-di/php-di": "~6.3",
         "composer-plugin-api": "~2.0"
     },
     "require-dev":{
