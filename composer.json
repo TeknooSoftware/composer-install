@@ -30,11 +30,11 @@
         "optimize-autoloader": true
     },
     "require":{
-        "php": "~8.0",
-        "composer-plugin-api": "~2.0"
+        "php": "^8.0",
+        "composer-plugin-api": "^2.0"
     },
     "require-dev":{
-        "composer/composer": "~2.2",
+        "composer/composer": "^2.2",
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^9.5.13",
         "squizlabs/php_codesniffer": "^3.6.2",

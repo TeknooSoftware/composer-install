@@ -10,8 +10,8 @@
  * to richarddeloge@gmail.com so we can send you a copy immediately.
  *
  *
- * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
@@ -48,8 +48,8 @@ use function class_exists;
  * will create a new instance via the reflection and pass arguments and the current IO instance to dialog with user.
  * If an action is not available (class does not exist), the configuration is skipped.
  *
- * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *

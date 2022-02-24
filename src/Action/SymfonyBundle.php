@@ -10,8 +10,8 @@
  * to richarddeloge@gmail.com so we can send you a copy immediately.
  *
  *
- * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
@@ -42,8 +42,8 @@ use function opcache_invalidate;
  * Action to (un)register some bundle into the /config/bundles.php file for Symfony project, to automatically enable/
  * disable them on install, update or delete.
  *
- * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *

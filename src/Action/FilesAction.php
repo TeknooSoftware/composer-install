@@ -10,8 +10,8 @@
  * to richarddeloge@gmail.com so we can send you a copy immediately.
  *
  *
- * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
@@ -50,8 +50,8 @@ use const PHP_EOL;
  * Files will be created or updated on install or update operation, and will be deleted (if configured by the user) on
  * delete. If the file already exist, this class will require a user's confirmation.
  *
- * @copyright   Copyright (c) 2009-2021 EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) 2020-2021 SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
