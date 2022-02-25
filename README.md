@@ -7,6 +7,8 @@ Teknoo Software - Composer Intsall
 [![License](https://poser.pugx.org/teknoo/composer-install/license)](https://packagist.org/packages/teknoo/composer-install)
 [![PHPStan](https://img.shields.io/badge/PHPStan-enabled-brightgreen.svg?style=flat)](https://github.com/phpstan/phpstan)
 
+**This package is currently deprecated, please use Symfony Flex for Symfony integration**
+
 Composer plugin allowing the creation of a functional package "out of the box" as well as a cleaning of the project 
 when it is uninstalled.
 
