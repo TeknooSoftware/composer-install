@@ -21,7 +21,7 @@
 
 namespace Teknoo\Composer\Action;
 
-use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 
 /**
  * Action to create some configuration files into /config/routes for Symfony Project to update routes.
@@ -39,7 +39,7 @@ class SymfonyRoutes extends FilesAction
 {
     use SymfonyTrait;
 
-    protected function getDestinationPath(PackageInterface $package): string
+    protected function getDestinationPath(RootPackageInterface $package): string
     {
         return $this->getConfigDir($package) . DIRECTORY_SEPARATOR . 'routes' . DIRECTORY_SEPARATOR;
     }

@@ -21,7 +21,7 @@
 
 namespace Teknoo\Composer\Action;
 
-use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 
 /**
  * Action to create some configuration files into /config/packages for Symfony Project, to auto-configure Symfony Bundle
@@ -39,7 +39,7 @@ class SymfonyPackages extends FilesAction
 {
     use SymfonyTrait;
 
-    protected function getDestinationPath(PackageInterface $package): string
+    protected function getDestinationPath(RootPackageInterface $package): string
     {
         return $this->getConfigDir($package) . DIRECTORY_SEPARATOR . 'packages' . DIRECTORY_SEPARATOR;
     }

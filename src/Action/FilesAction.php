@@ -23,7 +23,7 @@ namespace Teknoo\Composer\Action;
 
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
-use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 use RuntimeException;
 
 use function array_keys;
@@ -60,7 +60,7 @@ use const PHP_EOL;
  */
 abstract class FilesAction implements ActionInterface
 {
-    abstract protected function getDestinationPath(PackageInterface $package): string;
+    abstract protected function getDestinationPath(RootPackageInterface $package): string;
 
     /**
      * @param string|array<int|string, string> $content
@@ -119,7 +119,7 @@ abstract class FilesAction implements ActionInterface
     private function writeFiles(
         string $packageName,
         array $arguments,
-        PackageInterface $package,
+        RootPackageInterface $package,
         IOInterface $io
     ): void {
         $path = $this->getDestinationPath($package);
@@ -141,7 +141,7 @@ abstract class FilesAction implements ActionInterface
     private function deleteFiles(
         string $packageName,
         array $arguments,
-        PackageInterface $package,
+        RootPackageInterface $package,
         IOInterface $io
     ): void {
         $path = $this->getDestinationPath($package);
@@ -167,9 +167,7 @@ abstract class FilesAction implements ActionInterface
         $composer = $event->getComposer();
         $package = $composer->getPackage();
 
-        if ($package instanceof PackageInterface) {
-            $this->writeFiles($packageName, $arguments, $package, $io);
-        }
+        $this->writeFiles($packageName, $arguments, $package, $io);
 
         return $this;
     }
@@ -183,9 +181,7 @@ abstract class FilesAction implements ActionInterface
         $composer = $event->getComposer();
         $package = $composer->getPackage();
 
-        if ($package instanceof PackageInterface) {
-            $this->writeFiles($packageName, $arguments, $package, $io);
-        }
+        $this->writeFiles($packageName, $arguments, $package, $io);
 
         return $this;
     }
@@ -199,9 +195,7 @@ abstract class FilesAction implements ActionInterface
         $composer = $event->getComposer();
         $package = $composer->getPackage();
 
-        if ($package instanceof PackageInterface) {
-            $this->deleteFiles($packageName, $arguments, $package, $io);
-        }
+        $this->deleteFiles($packageName, $arguments, $package, $io);
 
         return $this;
     }
