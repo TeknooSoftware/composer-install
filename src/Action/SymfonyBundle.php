@@ -23,7 +23,7 @@ namespace Teknoo\Composer\Action;
 
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
-use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 
 use function array_diff_key;
 use function array_map;
@@ -54,7 +54,7 @@ class SymfonyBundle implements ActionInterface
 {
     use SymfonyTrait;
 
-    private function getBundlesFilename(PackageInterface $package): string
+    private function getBundlesFilename(RootPackageInterface $package): string
     {
         return $this->getConfigDir($package) . DIRECTORY_SEPARATOR . 'bundles.php';
     }
@@ -143,7 +143,7 @@ class SymfonyBundle implements ActionInterface
     /**
      * @param array<string, array<string, boolean>> $bundles
      */
-    private function registerBundles(array $bundles, PackageInterface $rootPackage): void
+    private function registerBundles(array $bundles, RootPackageInterface $rootPackage): void
     {
         $path = $this->getBundlesFilename($rootPackage);
         $installedBundles = $this->getBundles($path);
@@ -155,7 +155,7 @@ class SymfonyBundle implements ActionInterface
     /**
      * @param array<string, array<string, boolean>> $bundles
      */
-    private function unregisterBundles(array $bundles, PackageInterface $rootPackage): void
+    private function unregisterBundles(array $bundles, RootPackageInterface $rootPackage): void
     {
         $path = $this->getBundlesFilename($rootPackage);
         $installedBundles = $this->getBundles($path);
@@ -173,9 +173,7 @@ class SymfonyBundle implements ActionInterface
         $composer = $event->getComposer();
         $package = $composer->getPackage();
 
-        if ($package instanceof PackageInterface) {
-            $this->registerBundles($arguments, $package);
-        }
+        $this->registerBundles($arguments, $package);
 
         return $this;
     }
@@ -189,9 +187,7 @@ class SymfonyBundle implements ActionInterface
         $composer = $event->getComposer();
         $package = $composer->getPackage();
 
-        if ($package instanceof PackageInterface) {
-            $this->registerBundles($arguments, $package);
-        }
+        $this->registerBundles($arguments, $package);
 
         return $this;
     }
@@ -206,8 +202,7 @@ class SymfonyBundle implements ActionInterface
         $package = $composer->getPackage();
 
         if (
-            $package instanceof PackageInterface
-            && $io->askConfirmation("Confirm remove bundles for $packageName ? (yes/no)" . PHP_EOL, true)
+            $io->askConfirmation("Confirm remove bundles for $packageName ? (yes/no)" . PHP_EOL, true)
         ) {
             $this->unregisterBundles($arguments, $package);
         }

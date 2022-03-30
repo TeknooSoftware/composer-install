@@ -1,5 +1,9 @@
 # Teknoo Software - Composer Install - Change Log
 
+## [0.0.19] - 2022-03-30
+### Stable Release
+- Require Composer 2.3.1 or newer
+
 ## [0.0.18] - 2021-12-12
 ### Stable Release
 - Remove unused QA tool

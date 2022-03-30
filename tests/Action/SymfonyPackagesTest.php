@@ -26,6 +26,7 @@ use Composer\Composer;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 use PHPUnit\Framework\TestCase;
 use Teknoo\Composer\Action\ActionInterface;
 use Teknoo\Composer\Action\SymfonyPackages;
@@ -117,29 +118,11 @@ class SymfonyPackagesTest extends TestCase
         );
     }
 
-    public function testInstallWithoutPackage()
-    {
-        $event = $this->createMock(PackageEvent::class);
-        $event->expects(self::any())
-            ->method('getComposer')
-            ->willReturn($this->createMock(Composer::class));
-
-        self::assertInstanceOf(
-            ActionInterface::class,
-            $this->buildAction()->install(
-                'foo',
-                ['foo' => 'bar'],
-                $event,
-                $this->createMock(IOInterface::class)
-            )
-        );
-    }
-
     public function testInstallWithUnsupportedContentType()
     {
         $this->expectException(\TypeError::class);
 
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -168,7 +151,7 @@ class SymfonyPackagesTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -197,7 +180,7 @@ class SymfonyPackagesTest extends TestCase
 
     public function testInstall()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -256,7 +239,7 @@ EOF,
 
     public function testInstallOverwritteNotGranted()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -323,7 +306,7 @@ EOF,
 
     public function testInstallOverwritteGranted()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -390,7 +373,7 @@ EOF,
 
     public function testInstallOverwritteByPassFileAreEqual()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -502,27 +485,9 @@ EOF,
         );
     }
 
-    public function testUpdateWithoutPackage()
-    {
-        $event = $this->createMock(PackageEvent::class);
-        $event->expects(self::any())
-            ->method('getComposer')
-            ->willReturn($this->createMock(Composer::class));
-
-        self::assertInstanceOf(
-            ActionInterface::class,
-            $this->buildAction()->update(
-                'foo',
-                ['foo' => 'bar'],
-                $event,
-                $this->createMock(IOInterface::class)
-            )
-        );
-    }
-
     public function testUpdate()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -627,27 +592,9 @@ EOF,
         );
     }
 
-    public function testUninstallWithoutPackage()
-    {
-        $event = $this->createMock(PackageEvent::class);
-        $event->expects(self::any())
-            ->method('getComposer')
-            ->willReturn($this->createMock(Composer::class));
-
-        self::assertInstanceOf(
-            ActionInterface::class,
-            $this->buildAction()->uninstall(
-                'foo',
-                ['foo' => 'bar'],
-                $event,
-                $this->createMock(IOInterface::class)
-            )
-        );
-    }
-
     public function testUninstallWithoutDeletionConfirmation()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);
@@ -708,7 +655,7 @@ EOF,
 
     public function testUninstallWithDeletionConfirmation()
     {
-        $package = $this->createMock(PackageInterface::class);
+        $package = $this->createMock(RootPackageInterface::class);
         $package->expects(self::any())
             ->method('getExtra')
             ->willReturn([]);

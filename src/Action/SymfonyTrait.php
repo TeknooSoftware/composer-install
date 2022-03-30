@@ -21,7 +21,7 @@
 
 namespace Teknoo\Composer\Action;
 
-use Composer\Package\PackageInterface;
+use Composer\Package\RootPackageInterface;
 
 use function getcwd;
 
@@ -39,7 +39,7 @@ use function getcwd;
  */
 trait SymfonyTrait
 {
-    private function getConfigDir(PackageInterface $package): string
+    private function getConfigDir(RootPackageInterface $package): string
     {
         $config = $package->getExtra();
 
