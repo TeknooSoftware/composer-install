@@ -27,9 +27,6 @@ qa-offline: lint phpstan phpcs phpcpd
 lint:
 	find ./src -name "*.php" -exec ${PHP} -l {} \; | grep "Parse error" > /dev/null && exit 1 || exit 0
 
-phploc:
-	${PHP} vendor/bin/phploc src
-
 phpstan:
 	${PHP} vendor/bin/phpstan analyse src --level max
 
@@ -45,7 +42,7 @@ composerunsed:
 audit:
 	${COMPOSER} audit
 
-.PHONY: qa qa-offline lint phploc phpstan phpcs phpcpd audit
+.PHONY: qa qa-offline lint phpstan phpcs phpcpd audit
 
 ### Testing
 test:

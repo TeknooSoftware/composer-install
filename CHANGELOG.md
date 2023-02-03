@@ -1,5 +1,9 @@
 # Teknoo Software - Composer Install - Change Log
 
+## [0.0.20] - 2023-02-03
+### Stable Release
+- Update dev libs to support PHPUnit 10 and remove unused phploc
+
 ## [0.0.19] - 2022-03-30
 ### Stable Release
 - Require Composer 2.3.1 or newer
