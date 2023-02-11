@@ -13,3 +13,4 @@ composer.lock
 .phpunit.result.cache
 tests/fixtures/bundles/config/bundles.php
 tests/fixtures/config/config/*
+/.phpunit.cache/
