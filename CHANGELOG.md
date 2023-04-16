@@ -1,5 +1,11 @@
 # Teknoo Software - Composer Install - Change Log
 
+## [0.0.22] - 2023-04-16
+### Stable Release
+- Update dev lib requirements
+- Support PHPUnit 10.1+
+- Migrate phpunit.xml
+
 ## [0.0.21] - 2023-02-11
 ### Stable Release
 - Remove phpcpd and upgrade phpunit.xml
