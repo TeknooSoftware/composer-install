@@ -11,7 +11,7 @@
  *
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
@@ -28,7 +28,7 @@ use Composer\Package\RootPackageInterface;
  * Build on `FilesAction`
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *

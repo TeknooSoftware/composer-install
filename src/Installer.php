@@ -11,7 +11,7 @@
  *
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
@@ -49,7 +49,7 @@ use function class_exists;
  * If an action is not available (class does not exist), the configuration is skipped.
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *

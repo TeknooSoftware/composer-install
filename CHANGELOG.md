@@ -1,5 +1,10 @@
 # Teknoo Software - Composer Install - Change Log
 
+## [0.0.23] - 2023-05-15
+### Stable Release
+- Update dev lib requirements
+- Update copyrights
+
 ## [0.0.22] - 2023-04-16
 ### Stable Release
 - Update dev lib requirements

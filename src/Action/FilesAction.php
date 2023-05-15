@@ -11,7 +11,7 @@
  *
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
@@ -51,7 +51,7 @@ use const PHP_EOL;
  * delete. If the file already exist, this class will require a user's confirmation.
  *
  * @copyright   Copyright (c) EIRL Richard Déloge (richarddeloge@gmail.com)
- * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software)
+ * @copyright   Copyright (c) SASU Teknoo Software (https://teknoo.software - contact@teknoo.software)
  *
  * @link        http://teknoo.software/composer-install Project website
  *
