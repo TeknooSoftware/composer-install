@@ -62,21 +62,11 @@ Quick Example
 
 Support this project
 ---------------------
+This project is free and will remain free. It is fully supported by the activities of the EIRL.
+If you like it and help me maintain it and evolve it, don't hesitate to support me on
+[Patreon](https://patreon.com/teknoo_software) or [Github](https://github.com/sponsors/TeknooSoftware).
 
-This project is free and will remain free, but it is developed on my personal time. 
-If you like it and help me maintain it and evolve it, don't hesitate to support me on [Patreon](https://patreon.com/teknoo_software).
-Thanks :) Richard. 
-
-Installation & Requirements
----------------------------
-To install this library with composer, run this command :
-
-    composer require teknoo/composer-install
-
-This library requires :
-
-    * PHP 8.0+
-    * Composer 2.0+
+Thanks :) Richard.
 
 Credits
 -------
@@ -91,9 +81,19 @@ sharing knowledge and skills.
 
 License
 -------
-composer-install is licensed under the MIT License - see the licenses folder for details
+Space is licensed under the MIT License - see the licenses folder for details.
+
+Installation & Requirements
+---------------------------
+To install this library with composer, run this command :
+
+    composer require teknoo/composer-install
+
+This library requires :
+
+    * PHP 8.0+
+    * Composer 2.0+
 
 Contribute :)
 -------------
-
 You are welcome to contribute to this project. [Fork it on Github](CONTRIBUTING.md)
